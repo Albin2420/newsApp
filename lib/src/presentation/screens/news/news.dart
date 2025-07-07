@@ -53,7 +53,7 @@ class News extends StatelessWidget {
               ),
               SizedBox(height: 24),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Stack(
                   children: [
                     Container(
@@ -82,7 +82,7 @@ class News extends StatelessWidget {
               ),
               SizedBox(height: 18),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Text(
                   title,
                   style: GoogleFonts.roboto(
@@ -91,8 +91,9 @@ class News extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Row(
                   children: [
                     SizedBox(
@@ -112,9 +113,9 @@ class News extends StatelessWidget {
                   ],
                 ),
               ),
-
+              SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Text(
                   content,
                   style: GoogleFonts.roboto(
