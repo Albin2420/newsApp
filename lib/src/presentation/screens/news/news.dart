@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class News extends StatelessWidget {
@@ -14,23 +15,28 @@ class News extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 8),
-              Row(
-                children: [
-                  SizedBox(width: 27),
-                  SizedBox(
-                    height: 12,
-                    width: 12,
-                    child: Image.asset("assets/icons/back.png"),
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    "Back",
-                    style: GoogleFonts.roboto(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Row(
+                  children: [
+                    SizedBox(width: 27),
+                    SizedBox(
+                      height: 12,
+                      width: 12,
+                      child: Image.asset("assets/icons/back.png"),
                     ),
-                  ),
-                ],
+                    SizedBox(width: 8),
+                    Text(
+                      "Back",
+                      style: GoogleFonts.roboto(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 24),
               Padding(
