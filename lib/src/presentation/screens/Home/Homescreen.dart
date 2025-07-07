@@ -27,7 +27,7 @@ class Homescreen extends StatelessWidget {
             children: [
               // Top Menu Bar
               Container(
-                padding: const EdgeInsets.only(left: 12, right: 12, bottom: 9),
+                padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
                 height: MediaQuery.of(context).size.height * 0.1,
                 color: Colors.white,
                 child: Row(
@@ -35,12 +35,7 @@ class Homescreen extends StatelessWidget {
                     MenuTile(
                       index: 0,
                       onTap: () {
-                        log("News()");
-                        ctrl.pageController.animateToPage(
-                          0,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
+                        ctrl.navigateToPage(0);
                       },
                       iconPath: "assets/icons/menu.png",
                       label: "News",
@@ -48,12 +43,7 @@ class Homescreen extends StatelessWidget {
                     MenuTile(
                       index: 1,
                       onTap: () {
-                        log("fav()");
-                        ctrl.pageController.animateToPage(
-                          1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
+                        ctrl.navigateToPage(1);
                       },
                       iconPath: "assets/icons/fav.png",
                       label: "Fav",
@@ -68,9 +58,6 @@ class Homescreen extends StatelessWidget {
               Expanded(
                 child: PageView.builder(
                   controller: ctrl.pageController,
-                  onPageChanged: (index) {
-                    ctrl.pageSwitch(pageNo: index);
-                  },
                   itemCount: 2,
                   itemBuilder: (context, pageIndex) {
                     if (pageIndex == 0) {
