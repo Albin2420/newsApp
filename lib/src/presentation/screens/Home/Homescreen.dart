@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapp/src/presentation/controller/homecontroller/homecontroller.dart';
+import 'package:newsapp/src/presentation/screens/news/news.dart';
 import 'package:newsapp/src/presentation/widgets/menuTile.dart';
 import 'package:newsapp/src/presentation/widgets/newsTile.dart';
 
@@ -65,11 +66,49 @@ class Homescreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: ctrl.articles.length,
                       itemBuilder: (context, index) {
-                        return Newstile(
-                          onTap: () => log("url: ${ctrl.articles[index].url}"),
-                          url: ctrl.articles[index].urlToImage ?? '',
-                          title: ctrl.articles[index].title ?? '',
-                          description: ctrl.articles[index].description ?? '',
+                        return Dismissible(
+                          key: Key(
+                            ctrl.articles[index].url ?? index.toString(),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {},
+                          background: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xffFCD1D1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            alignment: Alignment.centerRight,
+
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 27,
+                                  width: 24,
+                                  child: Image.asset("assets/icons/fav.png"),
+                                ),
+                                Text(
+                                  "Add to \nFavorite",
+                                  style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          child: Newstile(
+                            onTap: () {
+                              Get.to(() => News());
+                            },
+                            url: ctrl.articles[index].urlToImage ?? '',
+                            title: ctrl.articles[index].title ?? '',
+                            description: ctrl.articles[index].description ?? '',
+                            publishDate: ctrl.articles[index].publishedAt!,
+                            index: index,
+                          ),
                         );
                       },
                       separatorBuilder: (context, index) =>

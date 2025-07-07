@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class Newstile extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
   final String description;
   final String url;
+  final DateTime publishDate;
+  final int index;
 
   const Newstile({
     super.key,
@@ -13,6 +18,8 @@ class Newstile extends StatelessWidget {
     required this.title,
     required this.description,
     required this.url,
+    required this.publishDate,
+    required this.index,
   });
 
   @override
@@ -100,7 +107,7 @@ class Newstile extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          "Mon, 21 Dec 2020 14:57 GMT",
+                          formatToGmtStyle(publishDate.toString()),
                           style: GoogleFonts.roboto(
                             fontWeight: FontWeight.w700,
                             fontSize: 10,
@@ -117,5 +124,14 @@ class Newstile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatToGmtStyle(String utcString) {
+    DateTime utcDateTime = DateTime.parse(
+      utcString,
+    ).toUtc(); // Ensure it's in UTC
+
+    // Format: "EEE, dd MMM yyyy HH:mm 'GMT'"
+    return "${DateFormat("EEE, dd MMM yyyy HH:mm", 'en_US').format(utcDateTime)} GMT";
   }
 }
