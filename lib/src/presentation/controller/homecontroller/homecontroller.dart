@@ -21,6 +21,12 @@ class Homecontroller extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    pageController.dispose();
+    super.onClose();
+  }
+
   void fetch() async {
     try {
       log("fetch()");
@@ -44,11 +50,40 @@ class Homecontroller extends GetxController {
     log("item count :${fav.length}");
   }
 
-  void pageSwitch({required int pageNo}) {
+  // Add this method to handle navigation safely
+  void navigateToPage(int pageIndex) {
     try {
-      currentPage.value = pageNo;
+      log("navigateToPage: $pageIndex");
+
+      // Check if pageController is attached to a PageView
+      if (pageController.hasClients) {
+        currentPage.value = pageIndex;
+        pageController.animateToPage(
+          pageIndex,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        log("PageController not attached yet, using delayed navigation");
+        // If not attached, wait for next frame and try again
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (pageController.hasClients) {
+            pageController.animateToPage(
+              pageIndex,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+            currentPage.value = pageIndex;
+          } else {
+            // Fallback: just update the current page
+            currentPage.value = pageIndex;
+          }
+        });
+      }
     } catch (e) {
-      log("error in togleOptIon():$e");
+      log("Error in navigateToPage(): $e");
+      // Fallback: just update the current page
+      currentPage.value = pageIndex;
     }
   }
 }

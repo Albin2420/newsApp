@@ -22,6 +22,7 @@ class MenuTile extends StatelessWidget {
     final menuController = Get.find<Homecontroller>();
     return Expanded(
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: onTap,
         child: Obx(() {
           return Container(
