@@ -3,26 +3,36 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Newstile extends StatelessWidget {
   final VoidCallback onTap;
-  const Newstile({super.key, required this.onTap});
+  final String title;
+  final String description;
+  final String url;
+
+  const Newstile({
+    super.key,
+    required this.onTap,
+    required this.title,
+    required this.description,
+    required this.url,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(top: 12, bottom: 12, left: 17, right: 17),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Color(0x2418274B), // #18274B with 0x24 alpha
+              color: Color(0x2418274B),
               offset: Offset(0, 17.42),
               blurRadius: 85.15,
               spreadRadius: -3.87,
             ),
             BoxShadow(
-              color: Color(0x1F18274B), // #18274B with 0x1F alpha
+              color: Color(0x1F18274B),
               offset: Offset(0, 7.74),
               blurRadius: 27.09,
               spreadRadius: -5.81,
@@ -31,19 +41,38 @@ class Newstile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(height: 95, width: 95, color: Colors.amber),
-            SizedBox(width: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                height: 95,
+                width: 95,
+                child: url.isNotEmpty
+                    ? FadeInImage.assetNetwork(
+                        placeholder: 'assets/icons/placeholder-news.jpg',
+                        image: url,
+                        fit: BoxFit.cover,
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/icons/placeholder-news.jpg',
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                    : Image.asset(
+                        'assets/icons/placeholder-news.jpg',
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
+            const SizedBox(width: 8),
             Expanded(
-              flex: 3,
               child: Container(
-                padding: EdgeInsets.only(left: 8, top: 8),
-                // color: Colors.yellow,
+                padding: const EdgeInsets.only(left: 8, top: 8),
                 child: Column(
-                  spacing: 7,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Purus suspendisse adipiscing quam. Varius magnis in nisl.',
+                      title,
                       style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
@@ -51,9 +80,9 @@ class Newstile extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     ),
-
+                    const SizedBox(height: 7),
                     Text(
-                      "At leo tellus ornare adipiscing adipiscing pharetra nisi ornare.",
+                      description,
                       style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -61,20 +90,21 @@ class Newstile extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    const SizedBox(height: 7),
                     Row(
                       children: [
                         SizedBox(
-                          height: 18,
-                          width: 18,
+                          height: 16,
+                          width: 16,
                           child: Image.asset("assets/icons/cal.png"),
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
                           "Mon, 21 Dec 2020 14:57 GMT",
                           style: GoogleFonts.roboto(
                             fontWeight: FontWeight.w700,
-                            fontSize: 12,
-                            color: Color(0xffB9B9B9),
+                            fontSize: 10,
+                            color: const Color(0xffB9B9B9),
                           ),
                         ),
                       ],
