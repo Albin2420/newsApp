@@ -2,9 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class News extends StatelessWidget {
-  const News({super.key});
+  final String url;
+  final String title;
+  final String content;
+  final DateTime dateTime;
+  final bool isfav;
+  const News({
+    super.key,
+    required this.content,
+    required this.title,
+    required this.url,
+    required this.dateTime,
+    required this.isfav,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +54,37 @@ class News extends StatelessWidget {
               SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.25125,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.teal,
-                  ),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.25125,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: NetworkImage(url),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 15,
+                      right: 18,
+                      child: SizedBox(
+                        height: 26,
+                        width: 30,
+                        child: isfav == true
+                            ? Image.asset("assets/icons/fav.png")
+                            : SizedBox(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 18),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Purus suspendisse adipiscing quam. Varius magnis in nisl.",
+                  title,
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
@@ -71,7 +102,7 @@ class News extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      "Mon, 21 Dec 2020 14:57 GMT",
+                      formatToGmtStyle(dateTime.toString()),
                       style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
@@ -85,9 +116,7 @@ class News extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '''Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-              The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-              It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.''',
+                  content,
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
@@ -99,5 +128,14 @@ class News extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatToGmtStyle(String utcString) {
+    DateTime utcDateTime = DateTime.parse(
+      utcString,
+    ).toUtc(); // Ensure it's in UTC
+
+    // Format: "EEE, dd MMM yyyy HH:mm 'GMT'"
+    return "${DateFormat("EEE, dd MMM yyyy HH:mm", 'en_US').format(utcDateTime)} GMT";
   }
 }
