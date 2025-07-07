@@ -35,6 +35,7 @@ class Homescreen extends StatelessWidget {
                     MenuTile(
                       index: 0,
                       onTap: () {
+                        log("News()");
                         ctrl.pageController.animateToPage(
                           0,
                           duration: const Duration(milliseconds: 300),
@@ -47,6 +48,7 @@ class Homescreen extends StatelessWidget {
                     MenuTile(
                       index: 1,
                       onTap: () {
+                        log("fav()");
                         ctrl.pageController.animateToPage(
                           1,
                           duration: const Duration(milliseconds: 300),
@@ -117,7 +119,18 @@ class Homescreen extends StatelessWidget {
                                   ),
                                 ),
                                 child: Newstile(
-                                  onTap: () => Get.to(() => const News()),
+                                  onTap: () {
+                                    Get.to(
+                                      () => News(
+                                        isfav: false,
+                                        content: ctrl.articles[index].content!,
+                                        title: ctrl.articles[index].title!,
+                                        url: ctrl.articles[index].urlToImage!,
+                                        dateTime:
+                                            ctrl.articles[index].publishedAt!,
+                                      ),
+                                    );
+                                  },
                                   url: ctrl.articles[index].urlToImage ?? '',
                                   title: ctrl.articles[index].title ?? '',
                                   description:
@@ -162,7 +175,17 @@ class Homescreen extends StatelessWidget {
                           return ListView.separated(
                             itemBuilder: (context, index) {
                               return Newstile(
-                                onTap: () {},
+                                onTap: () {
+                                  Get.to(
+                                    () => News(
+                                      isfav: true,
+                                      content: ctrl.fav[index].content!,
+                                      title: ctrl.fav[index].title!,
+                                      url: ctrl.fav[index].urlToImage!,
+                                      dateTime: ctrl.fav[index].publishedAt!,
+                                    ),
+                                  );
+                                },
                                 title: ctrl.fav[index].title!,
                                 description: ctrl.fav[index].description!,
                                 url: ctrl.fav[index].urlToImage!,
